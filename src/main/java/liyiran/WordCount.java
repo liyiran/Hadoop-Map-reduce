@@ -27,24 +27,10 @@ public class WordCount extends Configured implements Tool {
             System.err.println("argument wrong");
             System.exit(-1);
         }
-//        WordCount wordCount = new WordCount();
-//        wordCount.MapReducerJob(args[0], args[1]);
         int res = ToolRunner.run(new WordCount(), args);
         System.exit(res);
     }
 
-//    public void MapReducerJob(String inputPath, String outputPath) throws IOException, InterruptedException, ClassNotFoundException {
-//        Job job = new Job();
-//        job.setJarByClass(WordCount.class);
-//        job.setJobName("word count");
-//        FileInputFormat.addInputPath(job, new Path(inputPath));
-//        FileOutputFormat.setOutputPath(job, new Path(outputPath));
-//        job.setMapperClass(WordCountMapper.class);
-//        job.setReducerClass(WordCountReducer.class);
-//        job.setOutputKeyClass(Text.class);
-//        job.setOutputValueClass(IntWritable.class);
-//        job.waitForCompletion(true);
-//    }
 
     @Override
     public int run(String[] strings) throws Exception {
