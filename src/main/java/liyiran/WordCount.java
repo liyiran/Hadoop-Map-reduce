@@ -25,10 +25,11 @@ public class WordCount {
             System.err.println("argument wrong");
             System.exit(-1);
         }
-        MapReducerJob(args[0], args[1]);
+        WordCount wordCount = new WordCount();
+        wordCount.MapReducerJob(args[0], args[1]);
     }
 
-    private static void MapReducerJob(String inputPath, String outputPath) throws IOException, InterruptedException, ClassNotFoundException {
+    public void MapReducerJob(String inputPath, String outputPath) throws IOException, InterruptedException, ClassNotFoundException {
         Job job = new Job();
         job.setJarByClass(WordCount.class);
         job.setJobName("word count");
