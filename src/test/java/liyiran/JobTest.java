@@ -8,10 +8,12 @@ package liyiran;/*
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Yiran Li / 2M business applications a|s
@@ -28,33 +32,42 @@ import java.io.IOException;
 //@ExtendWith(MockitoExtension.class)
 public class JobTest {
     @Mock
-    private Mapper.Context mockContext;
+    private Mapper.Context mapperContext;
+    @Mock
+    private Reducer.Context reducerContext;
     private WordCountMapper mapper;
     private IntWritable one;
+    private WordCountReducer reducer;
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mapper = new WordCountMapper();
         mapper.word = mock(Text.class);
         one = new IntWritable(1);
+        reducer = new WordCountReducer();
     }
 
     @Test
     public void testMapper() throws InterruptedException, IOException, ClassNotFoundException {
         String line = "hello world a world";
-        mapper.map(null, new Text(line), mockContext);
+        mapper.map(null, new Text(line), mapperContext);
         InOrder inOrder = inOrder(
-                mapper.word, mockContext,
-                mapper.word, mockContext, 
-                mapper.word, mockContext, 
-                mapper.word, mockContext);
+                mapper.word, mapperContext,
+                mapper.word, mapperContext, 
+                mapper.word, mapperContext, 
+                mapper.word, mapperContext);
 
         assertCountedOnce(inOrder, "hello");
         assertCountedOnce(inOrder, "world");
         assertCountedOnce(inOrder, "a");
         assertCountedOnce(inOrder, "world");
     }
-
+    @Test
+    public void testSingleWord() throws IOException, InterruptedException {
+        List<IntWritable> values = Arrays.asList(new IntWritable(1), new IntWritable(1), new IntWritable(1));
+        reducer.reduce(new Text("foo"), values, reducerContext);
+        verify(reducerContext).write(new Text("foo"), new IntWritable(3));
+    }
     @AfterEach
     public void tearDown() throws Exception {
   
@@ -62,7 +75,7 @@ public class JobTest {
 
     private void assertCountedOnce(InOrder inOrder, String w) throws IOException, InterruptedException {
         inOrder.verify(mapper.word).set(eq(w));
-        inOrder.verify(mockContext).write(eq(mapper.word), eq(one));
+        inOrder.verify(mapperContext).write(eq(mapper.word), eq(one));
     }
 }
 
