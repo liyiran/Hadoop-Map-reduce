@@ -45,6 +45,7 @@ public class JobTest {
         mapper.word = mock(Text.class);
         documentNumber = new Text("111");
         reducer = new WordCountReducer();
+        System.out.println("hahaha");
     }
 
     @Test
