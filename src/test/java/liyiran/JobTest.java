@@ -64,10 +64,10 @@ public class JobTest {
     }
 
     @Test
-    public void testSingleWord() throws IOException, InterruptedException {
+    public void testReducer() throws IOException, InterruptedException {
         List<Text> values = Arrays.asList(new Text("111"), new Text("222"), new Text("333"));
         reducer.reduce(new Text("foo"), values, reducerContext);
-        verify(reducerContext).write(new Text("foo"), new Text("111 222 333"));
+        verify(reducerContext).write(new Text("foo"), new Text("111:1 222:1 333:1"));
     }
 
     @AfterEach

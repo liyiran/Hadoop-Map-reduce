@@ -36,7 +36,7 @@ public class IntegrationTest {
         conf.set("fs.default.name", "file:///");
         conf.set("mapred.job.tracker", "local");
 
-        input = new Path("src/test/resources/sampleInput.txt");
+        input = new Path("src/test/resources/testdata");
         output = new Path("target/output");
 
         fs = FileSystem.getLocal(conf);
@@ -60,11 +60,9 @@ public class IntegrationTest {
             in = fs.open(new Path("target/output/part-r-00000"));
 
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            assertEquals("a\t1", br.readLine());
-            assertEquals("hello\t1", br.readLine());
-            assertEquals("my\t1", br.readLine());
-            assertEquals("wonderful\t1", br.readLine());
-            assertEquals("world\t2", br.readLine());
+            assertEquals("hello\t1:1 2:1", br.readLine());
+            assertEquals("liyiran\t2:1 3:1", br.readLine());
+            assertEquals("world\t1:1 3:1", br.readLine());
 
         } finally {
             IOUtils.closeStream(in);
