@@ -37,7 +37,7 @@ public class WordCountMapper extends Mapper<LongWritable, Text, Text, Text> {
             if(!StringUtils.isAlphanumeric(oneWord)){
                 continue;
             }
-            word.set(oneWord);
+            word.set(StringUtils.lowerCase(oneWord));
             context.write(word, documentName);
         }
     }
