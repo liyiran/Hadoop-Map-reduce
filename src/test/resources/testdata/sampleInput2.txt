@@ -1,1 +1,1 @@
-2	hello liyiran
+2	.hello.liyiran

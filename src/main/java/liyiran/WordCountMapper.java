@@ -6,13 +6,13 @@
  */
 package liyiran;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 /**
  * @author Yiran Li / 2M business applications a|s
@@ -27,9 +27,17 @@ public class WordCountMapper extends Mapper<LongWritable, Text, Text, Text> {
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String[] lines = value.toString().split("\\t");
         documentName.set(lines[0]);
-        StringTokenizer tokenizer = new StringTokenizer(lines[1]);
-        while (tokenizer.hasMoreTokens()) {
-            word.set(tokenizer.nextToken());
+//        StringTokenizer tokenizer = new StringTokenizer(lines[1]);
+//        while (tokenizer.hasMoreTokens()) {
+//            word.set(tokenizer.nextToken());
+//            context.write(word, documentName);
+//        }
+        String[] words = lines[1].split("\\P{Alpha}+");
+        for (String oneWord: words){
+            if(!StringUtils.isAlphanumeric(oneWord)){
+                continue;
+            }
+            word.set(oneWord);
             context.write(word, documentName);
         }
     }
