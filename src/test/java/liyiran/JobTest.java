@@ -45,7 +45,6 @@ public class JobTest {
         mapper.word = mock(Text.class);
         documentNumber = new Text("111");
         reducer = new WordCountReducer();
-        System.out.println("hahaha");
     }
 
     @Test
@@ -63,6 +62,26 @@ public class JobTest {
         assertCountedOnce(inOrder, "a");
         assertCountedOnce(inOrder, "world");
     }
+
+    @Test
+    public void testMapperPunc() throws InterruptedException, IOException, ClassNotFoundException {
+        String line = "111\thello\" 'world' a world I'm 999";
+        mapper.map(null, new Text(line), mapperContext);
+        InOrder inOrder = inOrder(
+                mapper.word, mapperContext,
+                mapper.word, mapperContext,
+                mapper.word, mapperContext,
+                mapper.word, mapperContext,
+                mapper.word, mapperContext);
+
+        assertCountedOnce(inOrder, "hello");
+        assertCountedOnce(inOrder, "world");
+        assertCountedOnce(inOrder, "a");
+        assertCountedOnce(inOrder, "world");
+        assertCountedOnce(inOrder, "i'm");
+        assertCountedOnce(inOrder, "999");
+    }
+
 
     @Test
     public void testReducer() throws IOException, InterruptedException {

@@ -32,12 +32,12 @@ public class WordCountMapper extends Mapper<LongWritable, Text, Text, Text> {
 //            word.set(tokenizer.nextToken());
 //            context.write(word, documentName);
 //        }
-        String[] words = lines[1].split("\\P{Alpha}+");
+        String[] words = lines[1].split("[^a-zA-Z0-9']+");
         for (String oneWord: words){
-            if(!StringUtils.isAlphanumeric(oneWord)){
+            if(StringUtils.isEmpty(oneWord)){
                 continue;
             }
-            word.set(StringUtils.lowerCase(oneWord));
+            word.set(StringUtils.lowerCase(StringUtils.strip(oneWord,"'")));
             context.write(word, documentName);
         }
     }
