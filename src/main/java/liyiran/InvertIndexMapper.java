@@ -18,7 +18,7 @@ import java.io.IOException;
  * @author Yiran Li / 2M business applications a|s
  * @version $Revision$ $Date$
  */
-public class WordCountMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class InvertIndexMapper extends Mapper<LongWritable, Text, Text, Text> {
     private final static IntWritable one = new IntWritable(1);
     protected Text documentName = new Text();
     protected Text word = new Text();

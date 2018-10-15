@@ -45,10 +45,10 @@ public class IntegrationTest {
 
     @Test
     public void test() throws Exception {
-        WordCount wordCount = new WordCount();
-        wordCount.setConf(conf);
+        InvertIndex invertIndex = new InvertIndex();
+        invertIndex.setConf(conf);
 
-        int exitCode = wordCount.run(new String[]{input.toString(), output.toString()});
+        int exitCode = invertIndex.run(new String[]{input.toString(), output.toString()});
         assertEquals(0, exitCode);
 
         validateOuput();

@@ -34,17 +34,17 @@ public class JobTest {
     private Mapper.Context mapperContext;
     @Mock
     private Reducer.Context reducerContext;
-    private WordCountMapper mapper;
+    private InvertIndexMapper mapper;
     private Text documentNumber;
-    private WordCountReducer reducer;
+    private InvertIndexReducer reducer;
 
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mapper = new WordCountMapper();
+        mapper = new InvertIndexMapper();
         mapper.word = mock(Text.class);
         documentNumber = new Text("111");
-        reducer = new WordCountReducer();
+        reducer = new InvertIndexReducer();
     }
 
     @Test

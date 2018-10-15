@@ -20,13 +20,13 @@ import org.apache.hadoop.util.ToolRunner;
  * @author Yiran Li / 2M business applications a|s
  * @version $Revision$ $Date$
  */
-public class WordCount extends Configured implements Tool {
+public class InvertIndex extends Configured implements Tool {
     public static void main(String... args) throws Exception {
         if (args.length != 2) {
             System.err.println("argument wrong");
             System.exit(-1);
         }
-        int res = ToolRunner.run(new WordCount(), args);
+        int res = ToolRunner.run(new InvertIndex(), args);
         System.exit(res);
     }
 
@@ -35,12 +35,12 @@ public class WordCount extends Configured implements Tool {
     public int run(String[] strings) throws Exception {
         Configuration conf = getConf();
         Job job = new Job(conf);
-        job.setJarByClass(WordCount.class);
+        job.setJarByClass(InvertIndex.class);
         job.setJobName("word count");
         FileInputFormat.addInputPath(job, new Path(strings[0]));
         FileOutputFormat.setOutputPath(job, new Path(strings[1]));
-        job.setMapperClass(WordCountMapper.class);
-        job.setReducerClass(WordCountReducer.class);
+        job.setMapperClass(InvertIndexMapper.class);
+        job.setReducerClass(InvertIndexReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
         job.waitForCompletion(true);

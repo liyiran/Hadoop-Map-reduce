@@ -17,7 +17,7 @@ import java.io.IOException;
  * @author Yiran Li / 2M business applications a|s
  * @version $Revision$ $Date$
  */
-public class WordCountReducer extends Reducer<Text, Text, Text, Text> {
+public class InvertIndexReducer extends Reducer<Text, Text, Text, Text> {
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         Multiset<String> counter = HashMultiset.create();
